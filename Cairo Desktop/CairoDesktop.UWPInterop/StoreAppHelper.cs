@@ -20,7 +20,7 @@ namespace CairoDesktop.UWPInterop
         {
             List<string[]> ret = new List<string[]>();
 
-            try
+            /* try
             {
                 Windows.Management.Deployment.PackageManager pman = new Windows.Management.Deployment.PackageManager();
                 IEnumerable<Windows.ApplicationModel.Package> packages = getPackages(pman);
@@ -79,7 +79,7 @@ namespace CairoDesktop.UWPInterop
                     }
                 }
             }
-            catch { }
+            catch { } */
 
             return ret;
         }
@@ -125,38 +125,6 @@ namespace CairoDesktop.UWPInterop
             }
 
             return node;
-        }
-
-        private static string getDisplayName(string packageName, string packagePath, XmlNode app, XmlNamespaceManager xmlnsManager)
-        {
-            Uri nameUri;
-            XmlNode nameNode = getXmlNode("uap:VisualElements/@DisplayName", app, xmlnsManager);
-
-            if (nameNode == null)
-                return packageName;
-
-            string nameKey = nameNode.Value;
-
-            if (!Uri.TryCreate(nameKey, UriKind.Absolute, out nameUri))
-                return nameKey;
-            else
-            {
-                var resourceKey = string.Format("ms-resource://{0}/resources/{1}", packageName, nameUri.Segments.Last());
-                string name = ExtractStringFromPRIFile(packagePath + "\\resources.pri", resourceKey);
-                if (!string.IsNullOrEmpty(name))
-                    return name;
-                else
-                {
-                    resourceKey = string.Format("ms-resource://{0}/{1}", packageName, nameUri.Segments.Last());
-                    name = ExtractStringFromPRIFile(packagePath + "\\resources.pri", resourceKey);
-                    if (!string.IsNullOrEmpty(name))
-                        return name;
-                    else
-                    {
-                        return ExtractStringFromPRIFile(packagePath + "\\resources.pri", nameUri.ToString());
-                    }
-                }
-            }
         }
 
         private static string getPlateColor(XmlNode app, XmlNamespaceManager xmlnsManager)
@@ -250,111 +218,6 @@ namespace CairoDesktop.UWPInterop
             }
 
             return "";
-        }
-
-        private static IEnumerable<Windows.ApplicationModel.Package> getPackages(Windows.Management.Deployment.PackageManager pman)
-        {
-            if (userSID == null)
-                userSID = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
-
-            try
-            {
-                return pman.FindPackagesForUser(userSID);
-            }
-            catch
-            {
-                return Enumerable.Empty<Windows.ApplicationModel.Package>();
-            }
-        }
-
-        private static IEnumerable<Windows.ApplicationModel.Package> getPackages(Windows.Management.Deployment.PackageManager pman, string packageFamilyName)
-        {
-            if (userSID == null)
-                userSID = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
-
-            try
-            {
-                return pman.FindPackagesForUser(userSID, packageFamilyName);
-            }
-            catch
-            {
-                return Enumerable.Empty<Windows.ApplicationModel.Package>();
-            }
-        }
-
-        // returns [icon, color]
-        public static string[] GetAppIcon(string appUserModelId, int size)
-        {
-            string[] pkgAppId = appUserModelId.Split('!');
-            string packageFamilyName = "";
-            string appId = "";
-            string returnIcon = "";
-            string returnColor = "";
-
-            if (pkgAppId.Count() > 1)
-            {
-                packageFamilyName = pkgAppId[0];
-                appId = pkgAppId[1];
-            }
-
-            Windows.Management.Deployment.PackageManager pman = new Windows.Management.Deployment.PackageManager();
-            IEnumerable<Windows.ApplicationModel.Package> packages = getPackages(pman, packageFamilyName);
-
-            foreach (Windows.ApplicationModel.Package package in packages)
-            {
-                string path = "";
-
-                // need to catch a system-thrown exception...
-                try
-                {
-                    path = package.InstalledLocation.Path;
-                }
-                catch
-                {
-                    continue;
-                }
-
-                XmlDocument manifest = getManifest(path);
-                XmlNamespaceManager xmlnsManager = getNamespaceManager(manifest);
-
-                bool found = false;
-
-                foreach (XmlNode app in manifest.SelectNodes("/ns:Package/ns:Applications/ns:Application", xmlnsManager))
-                {
-                    // get specific app in package
-                    
-                    if (app.SelectSingleNode("@Id", xmlnsManager).Value == appId)
-                    {
-                        // return values
-                        returnIcon = getIconPath(path, app, xmlnsManager, size);
-
-                        if (returnIcon.EndsWith("_altform-unplated.png"))
-                            returnColor = defaultColor;
-                        else
-                            returnColor = getPlateColor(app, xmlnsManager);
-
-                        found = true;
-
-                        break;
-                    }
-                }
-
-                if (found)
-                    break;
-            }
-
-            return new string[] { returnIcon, returnColor };
-        }
-
-        [DllImport("shlwapi.dll", BestFitMapping = false, CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = false, ThrowOnUnmappableChar = true)]
-        private static extern int SHLoadIndirectString(string pszSource, StringBuilder pszOutBuf, int cchOutBuf, IntPtr ppvReserved);
-
-        static internal string ExtractStringFromPRIFile(string pathToPRI, string resourceKey)
-        {
-            string sWin8ManifestString = string.Format("@{{{0}? {1}}}", pathToPRI, resourceKey);
-            var outBuff = new StringBuilder(256);
-            int result = SHLoadIndirectString(sWin8ManifestString, outBuff, outBuff.Capacity, IntPtr.Zero);
-            return outBuff.ToString();
         }
     }
 }

@@ -99,7 +99,7 @@
             /// <returns>An awaitable task</returns>
             public Task DownloadAsync()
             {
-                return Task.Run(() =>
+                return new System.Threading.Tasks.TaskFactory().StartNew(() =>
                 {
                     DownLoad();
                 });

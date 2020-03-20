@@ -361,7 +361,7 @@ namespace CairoDesktop
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

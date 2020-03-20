@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using CairoDesktop.Configuration;
 using CairoDesktop.Common;
 using System.ComponentModel;
+using System;
 
 namespace CairoDesktop
 {
@@ -37,7 +38,7 @@ namespace CairoDesktop
             {
                 if (!Dispatcher.CheckAccess())
                 {
-                    Dispatcher.Invoke(() => Location = value);
+                    Dispatcher.Invoke(new Action(() => Location = value));
                     return;
                 }
 

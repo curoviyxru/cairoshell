@@ -133,7 +133,7 @@ namespace CairoDesktop.AppGrabber
         {
             List<ApplicationInfo> storeApps = new List<ApplicationInfo>();
 
-            foreach (string[] app in UWPInterop.StoreAppHelper.GetStoreApps())
+            /* foreach (string[] app in UWPInterop.StoreAppHelper.GetStoreApps())
             {
                 string path = app[0];
 
@@ -146,7 +146,7 @@ namespace CairoDesktop.AppGrabber
 
                 if (ai.Name != "")
                     storeApps.Add(ai);
-            }
+            } */
 
             return storeApps;
         }
@@ -457,7 +457,7 @@ namespace CairoDesktop.AppGrabber
 
         public void AddStoreApp(string appUserModelId, AppCategoryType categoryType)
         {
-            bool success = false;
+            /* bool success = false;
             // not great but gets the job done I suppose
             foreach (string[] app in UWPInterop.StoreAppHelper.GetStoreApps())
             {
@@ -482,7 +482,7 @@ namespace CairoDesktop.AppGrabber
                 }
             }
 
-            if (success)
+            if (success) */
                 Save();
         }
 

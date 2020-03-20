@@ -11,7 +11,7 @@ namespace CairoDesktop.Common
     {
         private List<string> list;
         private int _currentIndex;
-        private IReadOnlyList<string> readOnlyList;
+        private List<string> readOnlyList;
 
         private int currentIndex
         {
@@ -63,12 +63,12 @@ namespace CairoDesktop.Common
             }
         }
 
-        public IReadOnlyList<string> PathHistory
+        public List<string> PathHistory
         {
             get
             {
                 if (readOnlyList == null)
-                    readOnlyList = list.AsReadOnly();
+                    readOnlyList = list;
 
                 return readOnlyList;
             }
@@ -188,7 +188,7 @@ namespace CairoDesktop.Common
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        private void OnPropertyChanged(string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

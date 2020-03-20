@@ -24,7 +24,7 @@ namespace CairoDesktop.Localization
 
         }
 
-        private static string getString([CallerMemberName]string stringName = null)
+        private static string getString(string stringName = null)
         {
             Dictionary<string, string> lang;
             bool isDefault = false;

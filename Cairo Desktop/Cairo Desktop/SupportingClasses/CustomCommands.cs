@@ -107,7 +107,7 @@ namespace CairoDesktop
                 {
                     CairoSettingsWindow.Instance.Show();
                     CairoSettingsWindow.Instance.Activate();
-                    CairoSettingsWindow.Instance.TabDesktop.IsSelected = true;
+                    //CairoSettingsWindow.Instance.TabDesktop.IsSelected = true;
                 }
                 else
                 {

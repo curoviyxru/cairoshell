@@ -900,7 +900,7 @@ namespace CairoDesktop
 
                         if (!Directory.Exists(extractPath))
                         {
-                            ZipFile.ExtractToDirectory(dlg.FileName, extractPath);
+                            //ZipFile.ExtractToDirectory(dlg.FileName, extractPath);
                         }
 
                         string file = Directory.GetFiles(extractPath).FirstOrDefault(f => exts.Contains(Path.GetExtension(f)));

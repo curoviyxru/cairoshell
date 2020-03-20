@@ -1224,7 +1224,7 @@
                                   CommandParameter="{Binding}"
                                   Header="{Binding}">
                             <MenuItem.HeaderTemplate>
-                                <ItemContainerTemplate>
+                                <DataTemplate>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="0"
                                                 HorizontalAlignment="Stretch">
@@ -1250,7 +1250,7 @@
                                                        Width="268" />
                                         </StackPanel>
                                     </StackPanel>
-                                </ItemContainerTemplate>
+                                </DataTemplate>
                             </MenuItem.HeaderTemplate>
                             <MenuItem.Style>
                                 <Style TargetType="{x:Type MenuItem}">

@@ -383,7 +383,7 @@ namespace CairoDesktop.WindowsTasks
                     if (isUWP && !string.IsNullOrEmpty(AppUserModelID))
                     {
                         // UWP apps
-                        try
+                        /* try
                         {
                             BitmapImage img = new BitmapImage();
                             img.BeginInit();
@@ -393,10 +393,10 @@ namespace CairoDesktop.WindowsTasks
                             img.Freeze();
                             Icon = img;
                         }
-                        catch
-                        {
+                        catch 
+                        {*/
                             if (_icon == null) Icon = IconImageConverter.GetDefaultIcon();
-                        }
+                        //}
                     }
                     else
                     {

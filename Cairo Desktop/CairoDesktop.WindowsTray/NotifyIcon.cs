@@ -364,7 +364,7 @@ namespace CairoDesktop.WindowsTray
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName]string PropertyName = "")
+        public void OnPropertyChanged(string PropertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }

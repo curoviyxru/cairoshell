@@ -224,14 +224,14 @@
             // reset work area
             if (IsCairoRunningAsShell) AppBarHelper.ResetWorkArea();
 
-            Application.Current?.Dispatcher.Invoke(() => Application.Current?.Shutdown(), DispatcherPriority.Normal);
+            Application.Current?.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => Application.Current?.Shutdown()));
         }
 
         #region Shell: Autorun Apps
 
-        private static async void RunStartupApps()
+        private static void RunStartupApps()
         {
-            await Task.Run(() => LoopStartupApps());
+            new System.Threading.Tasks.TaskFactory().StartNew(() => LoopStartupApps());
         }
 
         private static void LoopStartupApps()
